@@ -12,6 +12,8 @@
 ### idistr: distribution to be used - determines what day policy is written
 ### ldistr: distribution to be used - determines length of policy
 
+library(lubridate)
+
 static <- function(l){
   return(l)
 }
@@ -24,11 +26,11 @@ generate_dates <- function(n, lbound, ubound, idistr="unif", ldistr=static(1)){
   if(idistr=="unif"){
     incept_dates <- runif(n, from_date, to_date)
   }
-  if(is.numeric(ldistr) & length(ldistr)==1){
-    exp_dates <- incept_dates + 365 #need to figure out how to add a year
-  }
   class(incept_dates) <- 'Date'
-  class(exp_dates) <- 'Date'
+  if(is.numeric(ldistr) & length(ldistr)==1){
+    exp_dates <- incept_dates
+    exp_dates <- exp_dates + years(1)
+  }
   return(data.frame(incept_date=incept_dates,exp_date=exp_dates))
 }
 
