@@ -34,9 +34,3 @@ generate_dates <- function(n, lbound, ubound, idistr="unif", ldistr=static(1)){
   return(data.frame(incept_date=incept_dates,exp_date=exp_dates))
 }
 
-# Example
-mydates <- generate_dates(50, "2015-01-01","2015-12-31")
-mydates
-
-max(mydates)
-
