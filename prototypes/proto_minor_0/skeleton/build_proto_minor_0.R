@@ -12,6 +12,11 @@ lastnames <-as.matrix(read.csv("./components/names/CSV_Database_of_Last_Names.cs
 source("./components/functions/generate_dates.R")
 source("./components/functions/generate_names.R")
 
+
+### Specify db parameters here
+polcount <- 50000
+
+
 ### Connect to the MySQL Server
 
 library(RMySQL)
