@@ -41,3 +41,7 @@ dbGetQuery(con, "DESC Policy;")
 
 
 ### Generate claim table
+
+dbGetQuery(con, "CREATE TABLE IF NOT EXISTS Claim (
+                 Claim_ID BIGINT NOT NULL,
+                 PRIMARY KEY (Claim_ID));")
