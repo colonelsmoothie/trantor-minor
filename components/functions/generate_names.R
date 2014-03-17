@@ -6,9 +6,9 @@
 ### lseq: a vector of last names from which last names will be sampled
 
 generate_names <- function(n,fseq,lseq){
-  first <- c()
-  last <- c()
-  first <- sample(fseq,n,replace=TRUE)
-  last <- sample(lseq, n, replace=TRUE)
-  return(cbind(first, last))
+  FirstName <- c()
+  LastName <- c()
+  FirstName <- sample(fseq,n,replace=TRUE)
+  LastName <- sample(lseq, n, replace=TRUE)
+  return(data.frame(FirstName, LastName))
 }

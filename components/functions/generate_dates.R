@@ -31,6 +31,6 @@ generate_dates <- function(n, lbound, ubound, idistr="unif", ldistr=static(1)){
     exp_dates <- incept_dates
     exp_dates <- exp_dates + years(1)
   }
-  return(data.frame(incept_date=incept_dates,exp_date=exp_dates))
+  return(data.frame(Incept_Date=incept_dates,Exp_Date=exp_dates))
 }
 
