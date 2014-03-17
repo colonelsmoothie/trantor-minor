@@ -38,7 +38,18 @@ dbGetQuery(con, "DESC Policy;")
 
 ### Generate policy table
 
+Policy_ID <- 1:polcount
+set.seed(52)
+Names <- generate_names(polcount,firstnames,lastnames)
+### check names
+head(Names)
 
+set.seed(97)
+Dates <- generate_dates(polcount,"2000-01-01","2003-01-01")
+head(Dates)
+
+Policy <- cbind(Policy_ID,Names,Dates)
+head(Policy)
 
 ### Generate claim table
 
