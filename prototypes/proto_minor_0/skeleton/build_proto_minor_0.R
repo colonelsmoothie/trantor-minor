@@ -14,8 +14,8 @@ source("./components/functions/generate_names.R")
 
 
 ### Specify db parameters here
-polcount <- 50000
-
+polcount <- 500
+freq <- .08
 
 ### Connect to the MySQL Server
 
@@ -56,3 +56,9 @@ head(Policy)
 dbGetQuery(con, "CREATE TABLE IF NOT EXISTS Claim (
                  Claim_ID BIGINT NOT NULL,
                  PRIMARY KEY (Claim_ID));")
+
+for(i in 1:polcount){
+#   pol.length <- as.numeric(Policy[i,"Exp_Date"]-Policy[i,"Incept_Date"])
+#   print(pol.length)
+  print(rpois(1,freq))
+}
