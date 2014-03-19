@@ -14,7 +14,7 @@ source("./components/functions/generate_names.R")
 
 
 ### Specify db parameters here
-polcount <- 500
+polcount <- 5000
 freq <- .08
 
 ### Connect to the MySQL Server
@@ -57,8 +57,23 @@ dbGetQuery(con, "CREATE TABLE IF NOT EXISTS Claim (
                  Claim_ID BIGINT NOT NULL,
                  PRIMARY KEY (Claim_ID));")
 
-for(i in 1:polcount){
-#   pol.length <- as.numeric(Policy[i,"Exp_Date"]-Policy[i,"Incept_Date"])
-#   print(pol.length)
-  print(rpois(1,freq))
+set.seed(9632)
+Claim <- data.frame(Claim_ID=as.numeric(),Claim_Date=character(),Policy_ID=as.numeric(c()))
+names(Claim) <- c("Claim_ID","Claim_Date","Policy_ID")
+class(Claim[,"Claim_Date"]) <- "Date"
+Claim_ID <- 1
+for(i in 1:3854){
+  claimcount <- 0
+  claimcount <- rpois(1,freq)
+  if(claimcount > 0){
+    for(j in 1:claimcount){
+      claim_date <- runif(1,as.numeric(Policy[i,"Incept_Date"]),as.numeric(Policy[i,"Exp_Date"]))
+      class(claim_date) <- 'Date'
+      Claim[Claim_ID,1] <- Claim_ID
+      Claim[Claim_ID,2] <- claim_date
+      Claim[Claim_ID,3] <- i
+      Claim_ID <- Claim_ID + 1
+    }
+  }
 }
+Claim
