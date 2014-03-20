@@ -29,6 +29,8 @@ generate_dates <- function(n, lbound, ubound, idistr="unif", ldistr=static(1)){
   class(incept_dates) <- 'Date'
   if(is.numeric(ldistr) & length(ldistr)==1){
     exp_dates <- incept_dates
+    # checks to see if incept year is a leap year, if so, subtract a day as we will not be able to add a year to 02-29
+    exp_dates[leap_year(incept_dates)] <- incept_dates - 1
     exp_dates <- exp_dates + years(1)
   }
   return(data.frame(Incept_Date=incept_dates,Exp_Date=exp_dates))
