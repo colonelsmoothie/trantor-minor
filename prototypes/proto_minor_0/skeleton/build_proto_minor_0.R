@@ -62,7 +62,7 @@ Claim <- data.frame(Claim_ID=as.numeric(),Claim_Date=character(),Policy_ID=as.nu
 names(Claim) <- c("Claim_ID","Claim_Date","Policy_ID")
 class(Claim[,"Claim_Date"]) <- "Date"
 Claim_ID <- 1
-for(i in 1:3854){
+for(i in 1:polcount){
   claimcount <- 0
   claimcount <- rpois(1,freq)
   if(claimcount > 0){
