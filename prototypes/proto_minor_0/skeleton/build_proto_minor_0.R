@@ -58,10 +58,10 @@ dbGetQuery(con, "CREATE TABLE IF NOT EXISTS Claim (
                  PRIMARY KEY (Claim_ID));")
 
 set.seed(9632)
-Claim <- data.frame(Claim_ID=as.numeric(),Claim_Date=character(),Policy_ID=as.numeric(c()))
-names(Claim) <- c("Claim_ID","Claim_Date","Policy_ID")
+Claim <- data.frame(Claim_Date=character(),Policy_ID=as.numeric(c()))
+names(Claim) <- c("Claim_Date","Policy_ID")
 class(Claim[,"Claim_Date"]) <- "Date"
-Claim_ID <- 1
+Claimrow <- 1
 for(i in 1:polcount){
   claimcount <- 0
   claimcount <- rpois(1,freq)
@@ -69,11 +69,10 @@ for(i in 1:polcount){
     for(j in 1:claimcount){
       claim_date <- runif(1,as.numeric(Policy[i,"Incept_Date"]),as.numeric(Policy[i,"Exp_Date"]))
       class(claim_date) <- 'Date'
-      Claim[Claim_ID,1] <- Claim_ID
-      Claim[Claim_ID,2] <- claim_date
-      Claim[Claim_ID,3] <- i
-      Claim_ID <- Claim_ID + 1
+      Claim[Claimrow,1] <- claim_date
+      Claim[Claimrow,2] <- i
+      Claimrow <- Claimrow + 1
     }
   }
 }
-Claim
+head(Claim)
