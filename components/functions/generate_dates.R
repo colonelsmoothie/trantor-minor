@@ -12,7 +12,13 @@
 ### idistr: distribution to be used - determines what day policy is written
 ### ldistr: distribution to be used - determines length of policy
 
-library(lubridate)
+
+### if package 'lubridate' is already installed, loads it, otherwise installs it and then loads it
+if(!require(lubridate)){
+  install.packages("lubridate")
+  library(lubridate)
+}
+
 
 static <- function(l){
   return(l)
