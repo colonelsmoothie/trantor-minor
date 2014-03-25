@@ -35,9 +35,12 @@ generate_dates <- function(n, lbound, ubound, idistr="unif", ldistr=static(1)){
   class(incept_dates) <- 'Date'
   if(is.numeric(ldistr) & length(ldistr)==1){
     exp_dates <- incept_dates
-    # checks to see if incept year is a leap year, if so, subtract a day as we will not be able to add a year to 02-29
-    exp_dates[leap_year(exp_dates)] <- exp_dates[leap_year(exp_dates)] - 1
+    # checks to see if incept year is on 02-29 (leap year), if so, subtract a day as we will not be able to add a year to 02-29
+    exp_dates[month(exp_dates) == 2 & day(exp_dates) == 29] <- exp_dates[month(exp_dates) == 2 & day(exp_dates) == 29] - 1
     exp_dates <- exp_dates + years(1)
+  }
+  if(TRUE %in% is.na(exp_dates)){
+    print("Warning: NAs produced in Exp_Dates")
   }
   return(data.frame(Incept_Date=incept_dates,Exp_Date=exp_dates))
 }
