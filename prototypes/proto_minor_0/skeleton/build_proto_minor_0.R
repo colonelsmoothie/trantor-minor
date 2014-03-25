@@ -14,7 +14,7 @@ source("./components/functions/generate_names.R")
 
 
 ### Specify db parameters here
-polcount <- 5000
+polcount <- 50000
 freq <- .08
 
 ### Connect to the MySQL Server
@@ -75,4 +75,6 @@ for(i in 1:polcount){
     }
   }
 }
+Claim <- Claim[order(Claim$Claim_Date),]
+Claim <- cbind(Claim_ID=1:nrow(Claim),Claim)
 head(Claim)
