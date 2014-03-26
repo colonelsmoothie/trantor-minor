@@ -24,7 +24,9 @@ library(RMySQL)
 ### We need to grant access to 'someuser' using the DB management system
 con <- dbConnect(MySQL(), user="someuser",dbname = "proto_minor_0")
 
-dbGetQuery(con, "CREATE TABLE IF NOT EXISTS Policy (
+dbGetQuery(con, "DROP TABLE IF EXISTS Policy;")
+
+dbGetQuery(con, "CREATE TABLE Policy (
                  Policy_ID BIGINT NOT NULL,
                  FirstName VARCHAR(255) NOT NULL,
                  LastName VARCHAR(255) NOT NULL,
@@ -53,9 +55,14 @@ head(Policy)
 
 ### Generate claim table
 
-dbGetQuery(con, "CREATE TABLE IF NOT EXISTS Claim (
+dbGetQuery(con, "DROP TABLE IF EXISTS Claim;")
+
+dbGetQuery(con, "CREATE TABLE Claim (
                  Claim_ID BIGINT NOT NULL,
+                 Claim_Date DATE NOT NULL,
                  PRIMARY KEY (Claim_ID));")
+
+dbGetQuery(con, "DESC Claim;")
 
 set.seed(9632)
 Claim <- data.frame(Claim_Date=character(),Policy_ID=as.numeric(c()))
