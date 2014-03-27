@@ -15,7 +15,9 @@ source("./components/functions/generate_names.R")
 
 ### Specify db parameters here
 polcount <- 50000
+claimsize <- 5000
 freq <- .08
+prem <- claimsize * freq
 
 ### Connect to the MySQL Server
 
@@ -32,6 +34,7 @@ dbGetQuery(con, "CREATE TABLE Policy (
                  LastName VARCHAR(255) NOT NULL,
                  Incept_Date DATE NOT NULL,
                  Exp_Date DATE NOT NULL,
+                 GrossWrittenPremium DOUBLE NOT NULL,
                  PRIMARY KEY (Policy_ID));")
 
 ### Check to see if table was created properly
@@ -50,7 +53,9 @@ set.seed(97)
 Dates <- generate_dates(polcount,"2000-01-01","2003-01-01")
 head(Dates)
 
-Policy <- cbind(Policy_ID,Names,Dates)
+GrossWrittenPremium <- rep(5000,prem)
+
+Policy <- cbind(Policy_ID,Names,Dates,GrossWrittenPremium)
 head(Policy)
 
 ### Generate claim table
