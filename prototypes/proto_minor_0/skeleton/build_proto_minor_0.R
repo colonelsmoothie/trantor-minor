@@ -65,7 +65,10 @@ dbGetQuery(con, "DROP TABLE IF EXISTS Claim;")
 dbGetQuery(con, "CREATE TABLE Claim (
                  Claim_ID BIGINT NOT NULL,
                  Claim_Date DATE NOT NULL,
-                 PRIMARY KEY (Claim_ID));")
+                 Policy_ID BIGINT NOT NULL,
+                 Incurred DOUBLE NOT NULL,
+                 PRIMARY KEY (Claim_ID),
+                 FOREIGN KEY (Policy_ID) REFERENCES Policy(Policy_ID));")
 
 dbGetQuery(con, "DESC Claim;")
 
@@ -88,5 +91,10 @@ for(i in 1:polcount){
   }
 }
 Claim <- Claim[order(Claim$Claim_Date),]
-Claim <- cbind(Claim_ID=1:nrow(Claim),Claim)
+Incurreds <- rep(claimsize,nrow(Claim))
+Claim <- cbind(Claim_ID=1:nrow(Claim),Claim,Incurred=Incurreds)
 head(Claim)
+
+
+dbWriteTable(con, "Policy", Policy, append=TRUE, row.names=FALSE)
+dbWriteTable(con, "Claim", Claim, append=TRUE, row.names=FALSE)
