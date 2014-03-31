@@ -36,7 +36,7 @@ generate_dates <- function(n, lbound, ubound, idistr="unif", ldistr=static(1)){
   if(is.numeric(ldistr) & length(ldistr)==1){
     exp_dates <- incept_dates
     # checks to see if incept year is on 02-29 (leap year), if so, subtract a day as we will not be able to add a year to 02-29
-    exp_dates[month(exp_dates) == 2 & day(exp_dates) == 29] <- exp_dates[month(exp_dates) == 2 & day(exp_dates) == 29] - 1
+    exp_dates[month(exp_dates) == 2 & day(exp_dates) == 29] <- exp_dates[month(exp_dates) == 2 & day(exp_dates) == 29] + 1
     exp_dates <- exp_dates + years(1)
   }
   if(TRUE %in% is.na(exp_dates)){
