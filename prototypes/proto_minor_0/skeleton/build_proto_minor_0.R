@@ -14,7 +14,7 @@ source("./components/functions/generate_names.R")
 
 
 ### Specify db parameters here
-polcount <- 50000
+polcount <- 500000
 claimsize <- 5000
 freq <- .08
 prem <- claimsize * freq
@@ -26,6 +26,7 @@ library(RMySQL)
 ### We need to grant access to 'someuser' using the DB management system
 con <- dbConnect(MySQL(), user="someuser",dbname = "proto_minor_0")
 
+dbGetQuery(con, "DROP TABLE IF EXISTS Claim;")
 dbGetQuery(con, "DROP TABLE IF EXISTS Policy;")
 
 dbGetQuery(con, "CREATE TABLE Policy (
@@ -50,17 +51,16 @@ Names <- generate_names(polcount,firstnames,lastnames)
 head(Names)
 
 set.seed(97)
-Dates <- generate_dates(polcount,"2000-01-01","2003-01-01")
+Dates <- generate_dates(polcount,"2000-01-01","2005-01-01")
 head(Dates)
 
-GrossWrittenPremium <- rep(5000,prem)
+GrossWrittenPremium <- rep(polcount,prem)
 
 Policy <- cbind(Policy_ID,Names,Dates,GrossWrittenPremium)
 head(Policy)
 
 ### Generate claim table
 
-dbGetQuery(con, "DROP TABLE IF EXISTS Claim;")
 
 dbGetQuery(con, "CREATE TABLE Claim (
                  Claim_ID BIGINT NOT NULL,
