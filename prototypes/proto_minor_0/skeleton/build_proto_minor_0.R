@@ -67,7 +67,7 @@ set.seed(97)
 Dates <- generate_dates(polcount,"2000-01-01","2005-01-01")
 head(Dates)
 
-GrossWrittenPremium <- rep(polcount,prem)
+GrossWrittenPremium <- rep(prem,polcount)
 
 Policy <- cbind(Policy_ID,Names,Dates,GrossWrittenPremium)
 head(Policy)
