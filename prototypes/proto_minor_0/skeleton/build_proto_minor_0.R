@@ -26,8 +26,12 @@ library(RMySQL)
 ### We need to grant access to 'someuser' using the DB management system
 con <- dbConnect(MySQL(), user="someuser",dbname = "proto_minor_0")
 
+### Check to see if Policy and Claim tables exist, if so then delete them
+
 dbGetQuery(con, "DROP TABLE IF EXISTS Claim;")
 dbGetQuery(con, "DROP TABLE IF EXISTS Policy;")
+
+### Create Policy and Claim tables - data generated from R will be imported into these tables in MySQL
 
 dbGetQuery(con, "CREATE TABLE Policy (
                  Policy_ID BIGINT NOT NULL,
@@ -38,11 +42,20 @@ dbGetQuery(con, "CREATE TABLE Policy (
                  GrossWrittenPremium DOUBLE NOT NULL,
                  PRIMARY KEY (Policy_ID));")
 
-### Check to see if table was created properly
+dbGetQuery(con, "CREATE TABLE Claim (
+                 Claim_ID BIGINT NOT NULL,
+                 Claim_Date DATE NOT NULL,
+                 Policy_ID BIGINT NOT NULL,
+                 Incurred DOUBLE NOT NULL,
+                 PRIMARY KEY (Claim_ID),
+                 FOREIGN KEY (Policy_ID) REFERENCES Policy(Policy_ID));")
+
+### Check to see if tables were created properly
 
 dbGetQuery(con, "DESC Policy;")
+dbGetQuery(con, "DESC Claim;")
 
-### Generate policy table
+### Generate policy information
 
 Policy_ID <- 1:polcount
 set.seed(52)
@@ -59,18 +72,8 @@ GrossWrittenPremium <- rep(polcount,prem)
 Policy <- cbind(Policy_ID,Names,Dates,GrossWrittenPremium)
 head(Policy)
 
-### Generate claim table
-
-
-dbGetQuery(con, "CREATE TABLE Claim (
-                 Claim_ID BIGINT NOT NULL,
-                 Claim_Date DATE NOT NULL,
-                 Policy_ID BIGINT NOT NULL,
-                 Incurred DOUBLE NOT NULL,
-                 PRIMARY KEY (Claim_ID),
-                 FOREIGN KEY (Policy_ID) REFERENCES Policy(Policy_ID));")
-
-dbGetQuery(con, "DESC Claim;")
+### Generate claim information
+### Should probably refactor this section into a function
 
 set.seed(9632)
 Claim <- data.frame(Claim_Date=character(),Policy_ID=as.numeric(c()))
@@ -93,8 +96,9 @@ for(i in 1:polcount){
 Claim <- Claim[order(Claim$Claim_Date),]
 Incurreds <- rep(claimsize,nrow(Claim))
 Claim <- cbind(Claim_ID=1:nrow(Claim),Claim,Incurred=Incurreds)
+### Check to see if claims generation was successful
 head(Claim)
 
-
+### upload policy and claims information into MySQL server
 dbWriteTable(con, "Policy", Policy, append=TRUE, row.names=FALSE)
 dbWriteTable(con, "Claim", Claim, append=TRUE, row.names=FALSE)
