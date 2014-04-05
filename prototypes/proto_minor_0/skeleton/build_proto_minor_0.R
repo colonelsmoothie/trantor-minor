@@ -11,6 +11,7 @@ lastnames <-as.matrix(read.csv("./components/names/CSV_Database_of_Last_Names.cs
 ### We'll need these to build the tables
 source("./components/functions/generate_dates.R")
 source("./components/functions/generate_names.R")
+source("./components/functions/generate_claims.R")
 
 
 ### Specify db parameters here
@@ -76,26 +77,7 @@ head(Policy)
 ### Should probably refactor this section into a function
 
 set.seed(9632)
-Claim <- data.frame(Claim_Date=character(),Policy_ID=as.numeric(c()))
-names(Claim) <- c("Claim_Date","Policy_ID")
-class(Claim[,"Claim_Date"]) <- "Date"
-Claimrow <- 1
-for(i in 1:polcount){
-  claimcount <- 0
-  claimcount <- rpois(1,freq)
-  if(claimcount > 0){
-    for(j in 1:claimcount){
-      claim_date <- runif(1,as.numeric(Policy[i,"Incept_Date"]),as.numeric(Policy[i,"Exp_Date"]))
-      class(claim_date) <- 'Date'
-      Claim[Claimrow,1] <- claim_date
-      Claim[Claimrow,2] <- i
-      Claimrow <- Claimrow + 1
-    }
-  }
-}
-Claim <- Claim[order(Claim$Claim_Date),]
-Incurreds <- rep(claimsize,nrow(Claim))
-Claim <- cbind(Claim_ID=1:nrow(Claim),Claim,Incurred=Incurreds)
+Claim <- generate_claims(Policy, freq)
 ### Check to see if claims generation was successful
 head(Claim)
 
