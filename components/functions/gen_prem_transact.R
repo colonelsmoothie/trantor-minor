@@ -6,7 +6,7 @@
 gen_prem_transact <- function(Policy,interval=12){
   polcount <- nrow(Policy)
   for(i in 1:polcount){
-    pollen <- Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"]
+    pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
     n.payments <- pollen/interval
   }
   
