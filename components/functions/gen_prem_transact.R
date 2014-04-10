@@ -3,11 +3,11 @@
 ### Policy - the policy data frame
 ### interval - payment interval (monthly, weekly, etc.)
 
-gen_prem_transact <- function(Policy,interval=12){
+gen_prem_transact <- function(Policy,n.interval=12){
   polcount <- nrow(Policy)
   for(i in 1:polcount){
     pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
-    n.payments <- pollen/interval
+    pay.period <- pollen/n.interval
   }
   
 }
