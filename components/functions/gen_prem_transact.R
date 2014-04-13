@@ -3,6 +3,10 @@
 ### Policy - the policy data frame
 ### interval - payment interval (monthly, weekly, etc.)
 
+
+### initialize variables for testing - delete later
+
+
 gen_prem_transact <- function(Policy,n.interval=12){
   polcount <- nrow(Policy)
   for(i in 1:polcount){
