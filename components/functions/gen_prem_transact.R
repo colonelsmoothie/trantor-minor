@@ -16,5 +16,7 @@ gen_prem_transact <- function(Policy,n.interval=12){
     payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
     prem.transacts <- cbind(i,pay.dates,payment.amt)
   }
-  
+  ###
+
+  return(Premium_Transaction)
 }
