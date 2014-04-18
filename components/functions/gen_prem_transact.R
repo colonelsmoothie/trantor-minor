@@ -13,6 +13,7 @@ gen_prem_transact <- function(Policy,n.interval=12){
   polcount <- nrow(Policy)
   for(i in 1:polcount){
     pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
+    ### calculate length of each interval
     pay.period <- pollen/n.interval
     pay.dates <- seq(as.numeric(Policy[i,"Incept_Date"],as.numeric(Policy[i,"Exp_Date"]),n.interval))
     payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
