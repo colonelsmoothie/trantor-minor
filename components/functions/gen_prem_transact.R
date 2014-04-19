@@ -20,6 +20,6 @@ gen_prem_transact <- function(Policy,n.interval=12){
     prem.transacts <- cbind(i,pay.dates,payment.amt)
   }
   ###
-
+  ### Table should contain all premium transactions for all policies
   return(Premium_Transaction)
 }
