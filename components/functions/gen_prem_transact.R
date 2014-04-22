@@ -23,5 +23,6 @@ gen_prem_transact <- function(Policy,n.interval=12){
   ### Table should contain all premium transactions for all policies
   #
   #
+  #
   return(Premium_Transaction)
 }
