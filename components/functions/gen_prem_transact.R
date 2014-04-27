@@ -28,5 +28,6 @@ gen_prem_transact <- function(Policy,n.interval=12){
   #
   #
   #
+  #
   return(Premium_Transaction)
 }
