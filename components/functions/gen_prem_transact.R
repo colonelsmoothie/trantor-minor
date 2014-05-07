@@ -14,27 +14,24 @@ gen_prem_transact <- function(Policy,n.interval=12){
   for(i in 1:polcount){
     pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
     ### calculate length of each interval
-    pay.period <- pollen/n.interval
-    pay.dates <- seq(as.numeric(Policy[i,"Incept_Date"],as.numeric(Policy[i,"Exp_Date"]),n.interval))
+    #pay.period <- pollen/n.interval
+    pay.dates <- seq(as.numeric(Policy[i,"Incept_Date"]),as.numeric(Policy[i,"Exp_Date"]),length.out=n.interval)
     payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
     prem.transacts <- cbind(i,pay.dates,payment.amt)
   }
-  ###
-  ### Table should contain all premium transactions for all policies
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
+  
   #
   return(Premium_Transaction)
 }
+
+
+### Unrefactored code for testing
+Policy
+i <- 1
+pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
+### calculate length of each interval
+pay.period <- pollen/n.interval
+pay.dates <- seq(from=as.numeric(Policy[i,"Incept_Date"]),to=as.numeric(Policy[i,"Exp_Date"]), length.out=n.interval)
+payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
+prem.transacts <- cbind(i,pay.dates,payment.amt)
+n.interval = 12
