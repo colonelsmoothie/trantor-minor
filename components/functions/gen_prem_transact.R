@@ -28,10 +28,12 @@ gen_prem_transact <- function(Policy,n.interval=12){
 ### Unrefactored code for testing
 Policy
 i <- 1
+curr.id <- 0
 pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
 ### calculate length of each interval
 pay.period <- pollen/n.interval
 pay.dates <- seq(from=as.numeric(Policy[i,"Incept_Date"]),to=as.numeric(Policy[i,"Exp_Date"]), length.out=n.interval)
 payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
-prem.transacts <- cbind(i,pay.dates,payment.amt)
+ids <- n.interval + curr.id
+prem.transacts <- cbind(ids,i,pay.dates,payment.amt)
 n.interval = 12
