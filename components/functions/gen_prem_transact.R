@@ -35,5 +35,6 @@ pay.period <- pollen/n.interval
 pay.dates <- seq(from=as.numeric(Policy[i,"Incept_Date"]),to=as.numeric(Policy[i,"Exp_Date"]), length.out=n.interval)
 payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
 ids <- n.interval + curr.id
+### transact id | policy id | transaction date | payment amount
 prem.transacts <- cbind(ids,i,pay.dates,payment.amt)
 n.interval = 12
