@@ -48,4 +48,4 @@ sum(prem.pmts) == Policy[i,"GrossWrittenPremium"]
 ### transact id | policy id | transaction date | payment amount
 prem.transacts <- cbind(i,pay.dates,payment.amt)
 prem.transacts
-#
+##
