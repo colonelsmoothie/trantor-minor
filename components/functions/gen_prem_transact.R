@@ -11,19 +11,30 @@
 
 gen_prem_transact <- function(Policy,n.interval=12){
   polcount <- nrow(Policy)
+  prem.transacts.all <- c()
   for(i in 1:polcount){
     pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
     ### calculate length of each interval
-    #pay.period <- pollen/n.interval
-    pay.dates <- seq(as.numeric(Policy[i,"Incept_Date"]),as.numeric(Policy[i,"Exp_Date"]),length.out=n.interval)
-    payment.amt <- Policy[i,"GrossWrittenPremium"] / n.interval
-    prem.transacts <- cbind(i,pay.dates,payment.amt)
+    pay.period <- pollen/n.interval
+    pay.dates <- seq(from=as.numeric(Policy[i,"Incept_Date"]),to=as.numeric(Policy[i,"Exp_Date"]), length.out=n.interval)
+    class(pay.dates) <- 'Date'
+    ### check to see if incept date same as first payment date
+    Policy[i,"Incept_Date"] == min(pay.dates)
+    ### check to see if last payment date before expiration date
+    Policy[i,"Exp_Date"] >= max(pay.dates)
+    prem.pmts <- rep(Policy[i,"GrossWrittenPremium"] / n.interval, n.interval)
+    ### check to see if sum of payments equals GWP
+    sum(prem.pmts) == Policy[i,"GrossWrittenPremium"]
+    prem.transacts <- data.frame(Policy_ID=i,Transact_Date=pay.dates,Payment_Amt=prem.pmts)
+    prem.transacts.all <-rbind(prem.transacts.all,prem.transacts)
+    prem.transacts.all <-prem.transacts.all[order(prem.transacts.all$Transact_Date),]
   }
-  
-  #
-  return(Premium_Transaction)
+  prem.transacts.all <- data.frame(transact_id=1:nrow(prem.transacts.all),prem.transacts.all,Payment_Type = "Premium Payment")
+  #prem.transacts.all$Payment_Type = "Premium Payment"
+  return(prem.transacts.all)
 }
 
+gen_prem_transact(Policy)
 
 ### Unencapsulated code for testing
 
@@ -68,24 +79,5 @@ Policy
 i <- 1
 n.interval = 12
 curr.transact <- 1
-pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
-pollen
-### calculate length of each interval
-pay.period <- pollen/n.interval
-pay.period
-pay.dates <- seq(from=as.numeric(Policy[i,"Incept_Date"]),to=as.numeric(Policy[i,"Exp_Date"]), length.out=n.interval)
-class(pay.dates) <- 'Date'
-pay.dates
-### check to see if incept date same as first payment date
-Policy[i,"Incept_Date"] == min(pay.dates)
-### check to see if last payment date before expiration date
-Policy[i,"Exp_Date"] >= max(pay.dates)
-prem.pmts <- rep(Policy[i,"GrossWrittenPremium"] / n.interval, n.interval)
-prem.pmts
-### check to see if sum of payments equals GWP
-sum(prem.pmts) == Policy[i,"GrossWrittenPremium"]
-### transact id | policy id | transaction date | payment amount
-transact.ids <- seq(curr.transact, curr.transact + n.interval - 1,1)
-prem.transacts <- data.frame(transact.ids,i,pay.dates,prem.pmts)
-prem.transacts
+
 ### will need to change transaction order and add a tie breaker, probably by pol id
