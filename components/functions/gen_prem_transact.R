@@ -15,7 +15,6 @@ gen_prem_transact <- function(Policy,n.interval=12){
   for(i in 1:polcount){
     pollen <- as.numeric(Policy[i,"Exp_Date"] - Policy[i,"Incept_Date"])
     ### calculate length of each interval
-    pay.period <- pollen/n.interval
     pay.dates <- seq(from=as.numeric(Policy[i,"Incept_Date"]),to=as.numeric(Policy[i,"Exp_Date"]), length.out=n.interval)
     class(pay.dates) <- 'Date'
     ### check to see if incept date same as first payment date
