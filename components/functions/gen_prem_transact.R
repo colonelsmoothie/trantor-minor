@@ -80,3 +80,4 @@ n.interval = 12
 curr.transact <- 1
 
 ### will need to change transaction order and add a tie breaker, probably by pol id
+#
