@@ -1,4 +1,4 @@
-### takes a data frame containing policy information and uses that to generate claims table
+#### takes a data frame containing policy information and uses that to generate claims table
 
 generate_claims <- function(policytable, freq){
   polcount <- nrow(policytable)
